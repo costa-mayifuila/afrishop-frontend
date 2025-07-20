@@ -1,19 +1,20 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
+// vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [tailwindcss(), react()],
+  plugins: [
+    react(),
+    tailwindcss(), // ✅ plugin oficial para Tailwind v4
+  ],
+  define: {
+    global: {},
+    'process.env': {},
+  },
   build: {
     rollupOptions: {
-      external: (id) => {
-        const ignorar = ['fs', 'path', 'pdfkit', 'firebase-admin', 'os', 'stream'];
-        const match = ignorar.some(pkg => id.includes(pkg));
-        if (match) {
-          console.warn(`🛑 Vite: externalizando "${id}"`);
-        }
-        return match;
-      }
+      external: ['fs', 'path', 'os', 'stream', 'videojs-contrib-hls']
     }
   }
-});
+})
